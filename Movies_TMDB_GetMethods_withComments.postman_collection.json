@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "ecceeedd-808e-452a-b2a2-49b752697fc1",
+		"name": "Movies_TMDB_GetMethods_withComments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33028948"
+	},
+	"item": [
+		{
+			"name": "getTopRatedMovies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1. Status code validation (Status code-ra assertálás)\r",
+							"pm.test(\"1. Response code should 200 OK\", function(){\r",
+							"pm.response.to.have.status(200);\r",
+							"}); \r",
+							"\r",
+							"// 2. Logging examples (példák console logolásra)\r",
+							"pm.test(\"2. Logging to console example\", function(){\r",
+							"console.log('Status code: ' + pm.response.code); \r",
+							"console.log('Content-type: ' + pm.response.headers.get(\"Content-type\")); \r",
+							"console.log('Header: ' + pm.response.headers); \r",
+							"console.log('Response body: ' + pm.response.json());\r",
+							"console.log('Response body: ' + pm.response.text()); // Logging of body content\r",
+							"}); \r",
+							"\r",
+							"// 3. Content type should be application/json in the response header (Content type-re assertálás (azaz, json-e a visszajövő válasz))\r",
+							"pm.test(\"3. Validate response header to be application/json\", function(){\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'); \r",
+							"}); \r",
+							"\r",
+							"// 4. Validate response body to be correct json format (annak ellenőrzése, hogy a response helyes json formátumban érkezik-e)\r",
+							"pm.test(\"4. Validate response body to be correct json format\", function(){\r",
+							"    let jsonBody = pm.response.json(); \r",
+							"    pm.expect(jsonBody).to.ok; \r",
+							"}); \r",
+							"\r",
+							"// 5. Validate response body attributes exist (annak ellenőrzése, hogy a response-ban szerepelnek-e az adott attribútumok)\r",
+							"pm.test(\"5. Validate response body attributes exist\", function(){\r",
+							"    let responseText = pm.response.text();\r",
+							"    pm.expect(responseText).to.include('id'); \r",
+							"    pm.expect(responseText).to.include('original_language');\r",
+							"    pm.expect(responseText).to.include('original_title');\r",
+							"    pm.expect(responseText).to.include('overview');\r",
+							"    pm.expect(responseText).to.include('release_date');\r",
+							"}); \r",
+							"\r",
+							"// 6. Validate response body attribute structure valid (validáció az attribútum struktúra felépítésére, azaz azt vizsgájuk, hogy a response-ban szerepelnek-e az adott attribútumok és az elvárt formátumúak-e)\r",
+							"pm.test(\"6. Validate response body attributes structure and types\", function(){\r",
+							"    let responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object'); \r",
+							"    pm.expect(responseJson.results[0].adult).to.be.a('boolean'); \r",
+							"    pm.expect(responseJson.results[0].backdrop_path).to.be.a('string'); \r",
+							"    pm.expect(responseJson.results[0].overview).to.be.a('string'); \r",
+							"    pm.expect(responseJson.results[0].id).to.be.a('number'); \r",
+							"    pm.expect(responseJson.results[0].genre_ids[0]).to.be.a('number');\r",
+							"}); \r",
+							"\r",
+							"// 7. Validate response body attribute values (validáció az adott attribútum értékére)\r",
+							"pm.test(\"7. Validate response body attribute values are present\", function(){\r",
+							"    let responseJson = pm.response.json();\r",
+							"     pm.expect(responseJson.results[1].id).to.eql(238); // checking if the id of the second element is 238 (annak ellenőrzése, hogy a második elem id-ja 238 -e)\r",
+							"      pm.expect(responseJson.results[1].original_title).to.eql('The Godfather'); \r",
+							"      pm.expect(responseJson.results[1].video).to.eql(false); \r",
+							"}); \r",
+							"\r",
+							"// 8. Predined json object is in the response body or not (validáció a json objektum tartalmára)\r",
+							"pm.test(\"8. Validate response contains expected JSON object\", function(){\r",
+							"    let responseJson = pm.response.json();\r",
+							"    let filmObject = {\r",
+							"            \"adult\": false,\r",
+							"            \"backdrop_path\": \"/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg\",\r",
+							"            \"genre_ids\": [\r",
+							"                18,\r",
+							"                80\r",
+							"            ],\r",
+							"            \"id\": 278,\r",
+							"            \"original_language\": \"en\",\r",
+							"            \"original_title\": \"The Shawshank Redemption\",\r",
+							"            \"overview\": \"Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope.\",\r",
+							"            \"popularity\": 167.245,\r",
+							"            \"poster_path\": \"/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg\",\r",
+							"            \"release_date\": \"1994-09-23\",\r",
+							"            \"title\": \"The Shawshank Redemption\",\r",
+							"            \"video\": false,\r",
+							"            \"vote_average\": 8.704,\r",
+							"            \"vote_count\": 26092\r",
+							"        };\r",
+							"     pm.expect(responseJson.results[0]).to.deep.include(filmObject); \r",
+							"});\r",
+							"\r",
+							"// 9. Response time performance test - Validate response time is below than 200 ms (annak ellenőrzése, hogy a válasz 200ms-on belül érkezik-e meg)\r",
+							"pm.test(\"9. Validate response time is below than 200 ms\", function(){\r",
+							"    let responseTime = pm.response.responseTime;\r",
+							"     pm.expect(responseTime).to.below(200); \r",
+							"}); \r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZDU0Njc3ZWEyZjhkMTM5OGI5Yjk1ZDZmYTg3NGMwYSIsInN1YiI6IjY2MzY1MjUzOGRlMGFlMDEyM2Y2MDhiZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NvbzpXYR327u-WK7kr5L82TJgDTrc2_0KNcFshttS-A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.themoviedb.org/3/movie/top_rated",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"movie",
+						"top_rated"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
