@@ -1,5 +1,5 @@
 # API_tests_with_Postman
 
-This repository contains Postman API tests from three websites with Get, Post, Put and Del methods.
+This repository contains Postman API tests from three websites with GET, POST, PUT and DELETE methods.
 
-Ez a repository Postman API teszteket tartalmaz, három weboldalról, Get, Post, Put és Del metódusokkal.
+Ez a repository Postman API teszteket tartalmaz, három weboldalról, GET, POST, PUT és DELETE metódusokkal.
