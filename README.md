@@ -1,4 +1,4 @@
-# API_tests_with_Postman
+# APITestsWithPostman
 
 This repository contains Postman API tests from three websites with GET, POST, PUT and DELETE methods.
 #
